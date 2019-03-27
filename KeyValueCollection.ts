@@ -8,15 +8,15 @@ export class KeyValueCollection<K, V> {
   }
 
   get(key: K): V {
-    var index: number = this.keys.indexOf(key);
+    const index: number = this.keys.indexOf(key);
     return this.values[index];
   }
   getAt(index: number): V {
     return this.values[index];
   }
   getRange(startIndex: number, endIndex: number): V[] {
-    var items: V[] = [];
-    for (var i = startIndex; i < endIndex; i++) {
+    const items: V[] = [];
+    for (let i = startIndex; i < endIndex; i++) {
       items.push(this.values[i]);
     }
     return items;
@@ -30,16 +30,16 @@ export class KeyValueCollection<K, V> {
     }
   }
   remove(key?: K, value?: V) {
-    var deleteKey: K;
-    var deleteValue: V;
+    let deleteKey: K;
+    let deleteValue: V;
     if (key != null || key != undefined) {
-      var index: number = this.keys.indexOf(key);
+      const index: number = this.keys.indexOf(key);
       deleteKey = this.keys[index];
       deleteValue = this.values[index];
       this.keys.splice(index, 1);
       this.values.splice(index, 1);
     } else {
-      var index: number = this.keys.indexOf(key);
+      const index: number = this.keys.indexOf(key);
       deleteKey = this.keys[index];
       deleteValue = this.values[index];
       this.keys.splice(index, 1);
@@ -50,15 +50,15 @@ export class KeyValueCollection<K, V> {
     }
   }
   removeAt(index: number) {
-    var deletedKeys: K[] = this.keys.splice(index, 1);
-    var deletedValues: V[] = this.values.splice(index, 1);
+    const deletedKeys: K[] = this.keys.splice(index, 1);
+    const deletedValues: V[] = this.values.splice(index, 1);
 
     if (this.onItemDeleted) {
       this.onItemDeleted(deletedValues[0], deletedKeys[0]);
     }
   }
   clear() {
-    var _that = this;
+    const _that = this;
     this.keys = [];
     this.values = [];
     if (this.onItemClear) {
@@ -66,7 +66,7 @@ export class KeyValueCollection<K, V> {
     }
   }
   clone(): KeyValueCollection<K, V> {
-    var newMixedCollection: KeyValueCollection<K, V> = new KeyValueCollection();
+    const newMixedCollection: KeyValueCollection<K, V> = new KeyValueCollection();
     newMixedCollection.keys = this.keys;
     newMixedCollection.values = this.values;
     return newMixedCollection;
@@ -75,8 +75,8 @@ export class KeyValueCollection<K, V> {
     return this.keys.length;
   }
   replace(key: K, value: V) {
-    var index = this.keys.indexOf(key);
-    var oldValue: any = this.values[<any>key];
+    const index = this.keys.indexOf(key);
+    const oldValue: any = this.values[<any>key];
     if (index !== -1) {
       this.values[index] = value;
     }
@@ -108,8 +108,8 @@ export class KeyValueCollection<K, V> {
     }
   }
   sort(byKey: boolean) {
-    var combine: any[] = [];
-    for (var i = 0; i < this.keys.length; i++) {
+    const combine: any[] = [];
+    for (let i = 0; i < this.keys.length; i++) {
       combine.push({ key: this.keys[i], value: this.values[i] });
     }
 
@@ -122,15 +122,15 @@ export class KeyValueCollection<K, V> {
         return a.value < b.value ? -1 : a.value == b.value ? 0 : 1;
       });
     }
-    for (var j = 0; j < combine.length; j++) {
+    for (let j = 0; j < combine.length; j++) {
       this.values[j] = combine[j].value;
       this.keys[j] = combine[j].key;
     }
   }
   toObject(): Object {
-    var object = new Object();
+    const object = new Object();
 
-    //for (var i = 0; i < this.Count(); i++) {
+    //for (const i = 0; i < this.Count(); i++) {
     //    object[<any>(this.Keys[i])] = this.Values[i];
     //}
     return object;
@@ -139,8 +139,8 @@ export class KeyValueCollection<K, V> {
     return JSON.stringify(this.toObject());
   }
   toXML(): string {
-    var xmlString: string = "";
-    for (var i = 0; i < this.values.length; i++) {
+    let xmlString: string = "";
+    for (let i = 0; i < this.values.length; i++) {
       xmlString +=
         "<" + this.keys[i] + ">" + this.values[i] + "<" + this.keys[i] + "/>";
     }
@@ -156,8 +156,8 @@ export class KeyValueCollection<K, V> {
 
   // static function
   static parseFromObject(object: any): KeyValueCollection<string, any> {
-    var mixedCollection = new KeyValueCollection<string, any>();
-    for (var key in object) {
+    const mixedCollection = new KeyValueCollection<string, any>();
+    for (const key in object) {
       if (object.hasOwnProperty(key) && typeof object[key] !== "function") {
         mixedCollection.values.push(object[key]);
         mixedCollection.keys.push(key);
@@ -166,23 +166,23 @@ export class KeyValueCollection<K, V> {
     return mixedCollection;
   }
   static parseFromJSON(JSONStr: string): KeyValueCollection<string, any> {
-    var obj: any = JSON.parse(JSONStr);
+    const obj: any = JSON.parse(JSONStr);
     return this.parseFromObject(obj);
   }
   static parseFromArray(
     arrVal: any[],
     arrKeys: string[]
   ): KeyValueCollection<string, any> {
-    var newCollection = new KeyValueCollection<string, any>();
-    for (var i = 0; i < arrVal.length; i++) {
+    const newCollection = new KeyValueCollection<string, any>();
+    for (let i = 0; i < arrVal.length; i++) {
       newCollection.add(arrVal[i], arrKeys[i]);
     }
     return newCollection;
   }
   static parseFromString(textToParse: string, splitSeperator: string) {
-    var newCollection = new KeyValueCollection<string, any>();
+    const newCollection = new KeyValueCollection<string, any>();
 
-    for (var item in textToParse.split(splitSeperator)) {
+    for (const item in textToParse.split(splitSeperator)) {
       newCollection.add(item, item);
     }
     return newCollection;
